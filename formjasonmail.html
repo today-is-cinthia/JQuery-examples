@@ -1,0 +1,59 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo Ajax con xmlhttp.send()</title>
+</head>
+<body>
+
+<form id="miFormulario">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre">
+
+  <label for="correo">Correo electrónico:</label>
+  <input type="email" id="correo" name="correo">
+
+  <button type="button" onclick="enviarFormulario()">Enviar Formulario</button>
+</form>
+
+<h2>Resultado de la Solicitud Ajax</h2>
+<div id="resultado"></div>
+
+<script>
+  function enviarFormulario() {
+    // Obtener los valores del formulario
+    var nombre = document.getElementById("nombre").value;
+    var correo = document.getElementById("correo").value;
+
+    // Crear un objeto XMLHttpRequest
+    var xmlhttp = new XMLHttpRequest();
+
+    // Configurar la solicitud con el método POST, la URL y el modo asíncrono
+    /*The "true" argument specifies that the request should be made asynchronously.
+    This means that the script will continue to run while the server processes the request, rather than waiting for a response.
+    This is generally preferred because it prevents the script from blocking or freezing while the request is being processed.*/
+    xmlhttp.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
+
+    // Configurar el encabezado de la solicitud para indicar que se están enviando datos de formulario
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    // Configurar la función de retrollamada que se ejecutará cuando cambie el estado de la solicitud
+    xmlhttp.onreadystatechange = function() {
+      // Verificar si la solicitud se completó exitosamente (estado 4) y si el código de estado es 201 (nuevo recurso creado en respuesta a la solicitud)
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 201) {
+        // Manipular y mostrar la respuesta en el elemento con id "resultado"
+        //La propiedad XMLHttpRequest.responseText devuelve un DOMString que contiene la respuesta a la consulta como un texto 
+        document.getElementById("resultado").innerHTML = "Solicitud exitosa. ID del nuevo recurso: " + xmlhttp.responseText;
+      }
+    };
+
+    // Crear una cadena de datos a enviar en el cuerpo de la solicitud
+    var datos = "title=" + encodeURIComponent(nombre) + "&body=" + encodeURIComponent(correo);
+
+    // Enviar la solicitud al servidor con los datos del formulario
+    xmlhttp.send(datos);
+  }
+</script>
+
+</body>
+</html>

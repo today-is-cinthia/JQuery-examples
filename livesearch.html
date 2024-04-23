@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <input type="text" class="live-search-box" placeholder="search here" />
+
+  <ul class="live-search-list">
+  <li>Lorem</li>
+  <li>ipsum</li>
+  <li>dolor</li>
+  <li>sit</li>
+  <li>amet</li>
+  </ul>
+<script>
+  $(document).ready(function(){
+
+    $('.live-search-list li').each(function(){
+    $(this).attr('data-search-term', $(this).text().toLowerCase());
+    });
+    
+    $('.live-search-box').on('keyup', function(){
+    
+    var searchTerm = $(this).val().toLowerCase();
+    
+        $('.live-search-list li').each(function(){
+    /*The .filter('[data-search-term *= ' + searchTerm + ']') part is a method that filters the selected elements based on a condition. The condition here is that the data-search-term attribute of the element contains the value of the searchTerm variable. The *= operator is used to select elements whose attribute value contains a specified value.
+
+The .length > 0 part checks if there is at least one element that meets the condition.
+
+The || operator is a logical OR operator that returns true if either of the conditions is true.
+
+The searchTerm.length < 1 part checks if the searchTerm variable is empty or not.
+
+So, in plain English, this line of code checks if the current element has a data-search-term attribute that contains the searchTerm value or if the searchTerm is empty. If either condition is true, the code inside the curly braces {} will be executed.*/
+            if ($(this).filter('[data-search-term *= ' + searchTerm + ']').length > 0 || searchTerm.length < 1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+    
+        });
+    
+    });
+    
+    });
+</script>
+  <!-- original source: http://jsfiddle.net/umaar/t82gZ/ -->
+</body>
+</html>

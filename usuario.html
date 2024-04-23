@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo Ajax con xmlhttp.onreadystatechange</title>
+</head>
+<body>
+
+<h1>Información del Usuario</h1>
+<div id="infoUsuario"></div>
+
+<script>
+  // Crear un objeto XMLHttpRequest
+  var xmlhttp = new XMLHttpRequest();
+
+  // Configurar la solicitud con el método GET y la URL de la API JSONPlaceholder
+  xmlhttp.open("GET", "https://jsonplaceholder.typicode.com/users/8", true);
+
+  // Configurar la función de retrollamada que se ejecutará cuando cambie el estado de la solicitud
+  xmlhttp.onreadystatechange = function() {
+    // Verificar si la solicitud se completó exitosamente (estado 4) y si el código de estado es 200 (OK)
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      // Convertir la respuesta JSON en un objeto JavaScript
+      var usuario = JSON.parse(xmlhttp.responseText);
+
+      // Construir el contenido HTML con la información del usuario
+      var contenidoHTML = "<p><strong>Nombre:</strong> " + usuario.name + "</p>" +
+                          "<p><strong>Email:</strong> " + usuario.email + "</p>" +
+                          "<p><strong>Empresa:</strong> " + usuario.company.name + "</p>";
+
+      // Actualizar el contenido del elemento con id "infoUsuario"
+      document.getElementById("infoUsuario").innerHTML = contenidoHTML;
+    }
+  };
+
+  // Enviar la solicitud al servidor
+  xmlhttp.send();
+</script>
+
+</body>
+</html>
